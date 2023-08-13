@@ -45,7 +45,11 @@ const userController = {
     const userId = req.params.id
     return Promise.all([
       User.findByPk(userId, {
-        raw: true
+        include: [
+          { model: Restaurant, as: 'FavoritedRestaurants' },
+          { model: User, as: 'Followers' },
+          { model: User, as: 'Followings' }
+        ]
       }),
       Comment.findAndCountAll({
         nest: true,
@@ -58,7 +62,12 @@ const userController = {
     ])
       .then(([user, comments]) => {
         if (!user) throw new Error("User didn't exist!")
-        res.render('users/profile', { user, comments })
+        // remove duplicates
+        const set = new Set()
+        const nonDuplicatedComments = comments.rows.filter(item => {
+          return !set.has(item.restaurantId) ? set.add(item.restaurantId) : false
+        })
+        res.render('users/profile', { user: user.toJSON(), comments: nonDuplicatedComments })
       })
       .catch(err => next(err))
   },

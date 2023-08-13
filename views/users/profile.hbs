@@ -1,36 +1,103 @@
 
-<div class="card m-auto" style="max-width: 720px;">
+<div class="row card m-auto col-md-12 justify-content-between">
   <div class="d-flex">
     <div>
       <img src="{{user.image}}" class="img-fluid rounded-start" alt="..." style="width: 400px">
     </div>
-    <div>
+    <div class="card-body">
+      <h3 class="card-title">{{user.name}}</h3>
+      <p class="card-text">{{user.email}}</p>
+      <p><strong>{{comments.length}} 已評論餐廳</strong></p>
+      <p><strong>{{user.FavoritedRestaurants.length}} 收藏的餐廳</strong></p>
+      <p><strong>{{user.Followings.length}} Followings(追蹤者)</strong></p>
+      <p><strong>{{user.Followers.length}} Followers(追隨者)</strong></p>
+      <a class="btn btn-primary" href="/users/{{user.id}}/edit">Edit</a>
+      <a class="btn btn-outline-secondary" href="javascript:history.back()">Back</a>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-4">
+    <div class="card m-auto mt-5" style="max-width: 720px;">
+      <div class="card-header">
+        <strong>{{user.Followings.length}} Followings(追蹤者)</strong>
+      </div>
       <div class="card-body">
-        <h3 class="card-title">{{user.name}}</h3>
-        <p class="card-text">{{user.email}}</p>
-        <p><strong>{{comments.count}} 已評論餐廳</strong></p>
-        <a class="btn btn-primary" href="/users/{{user.id}}/edit">Edit</a>
-        <a class="btn btn-outline-secondary" href="javascript:history.back()">Back</a>
+        <blockquote class="blockquote mb-0">
+          {{#if user.Followings}}
+          {{#each user.Followings}}
+          <a href="/users/{{this.id}}">
+            <img src="{{this.image}}" style="width: 120px">
+          </a>
+          {{/each}}
+          {{else}}
+          <strong>尚無追蹤者</strong>
+          {{/if}}
+        </blockquote>
+      </div>
+    </div>
+
+    <div class="card m-auto mt-5" style="max-width: 720px;">
+      <div class="card-header">
+        <strong>{{user.Followers.length}} Followers(追隨者)</strong>
+      </div>
+      <div class="card-body">
+        <blockquote class="blockquote mb-0">
+          {{#if user.Followers}}
+          {{#each user.Followers}}
+          <a href="/users/{{this.id}}">
+            <img src="{{this.image}}" style="width: 120px">
+          </a>
+          {{/each}}
+          {{else}}
+          <strong>尚無追隨者</strong>
+          {{/if}}
+        </blockquote>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-8">
+    <div class="card m-auto mt-5" style="max-width: 720px;">
+      <div class="card-header">
+        <strong>{{comments.length}} 已評論餐廳</strong>
+      </div>
+      <div class="card-body">
+        <blockquote class="blockquote mb-0">
+          {{#if comments}}
+          {{#each comments}}
+          <a href="/restaurants/{{this.Restaurant.id}}">
+            <img src="{{this.Restaurant.image}}" style="width: 120px">
+          </a>
+          {{/each}}
+          {{else}}
+          <strong>尚無評論餐廳</strong>
+          {{/if}}
+        </blockquote>
+      </div>
+    </div>
+
+    <div class="card m-auto mt-5" style="max-width: 720px;">
+      <div class="card-header">
+        <strong>{{user.FavoritedRestaurants.length}} 收藏的餐廳</strong>
+      </div>
+      <div class="card-body">
+        <blockquote class="blockquote mb-0">
+          {{#if user.FavoritedRestaurants}}
+          {{#each user.FavoritedRestaurants}}
+          <a href="/restaurants/{{this.id}}">
+            <img src="{{this.image}}" style="width: 120px">
+          </a>
+          {{/each}}
+          {{else}}
+          <strong>尚無收藏餐廳</strong>
+          {{/if}}
+        </blockquote>
       </div>
     </div>
   </div>
 </div>
 
-<div class="card m-auto mt-5" style="max-width: 720px;">
-  <div class="card-header">
-    <strong>{{comments.count}} 已評論餐廳</strong>
-  </div>
-  <div class="card-body">
-    <blockquote class="blockquote mb-0">
-      {{#if comments.rows}}
-        {{#each comments.rows}}
-          <a href="/restaurants/{{this.Restaurant.id}}">
-            <img src="{{this.Restaurant.image}}" style="width: 120px">
-          </a>
-        {{/each}}
-      {{else}}
-        <strong>尚無評論餐廳</strong>
-      {{/if}}
-    </blockquote>
-  </div>
-</div>
+
+  
